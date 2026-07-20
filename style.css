@@ -1364,3 +1364,60 @@ button svg, .btn svg {
     pointer-events: none;
 }
 
+/* =========================================
+   Final Polish: Advanced Animations (Req 14 & 26)
+   ========================================= */
+
+/* Typing Effect (Req 14) */
+.typing-effect {
+    overflow: hidden;
+    white-space: nowrap;
+    border-right: 2px solid var(--primary);
+    animation: typing 3s steps(40, end), blink-caret .75s step-end infinite;
+    display: inline-block;
+}
+
+@keyframes typing {
+    from { width: 0 }
+    to { width: 100% }
+}
+
+@keyframes blink-caret {
+    from, to { border-color: transparent }
+    50% { border-color: var(--primary) }
+}
+
+/* Bell Ring (Rotate) & Pulse Animation (Req 14 & 26) */
+.notification-trigger:hover svg {
+    animation: ringBell 0.5s ease-in-out infinite alternate, pulseIcon 1s infinite;
+}
+
+@keyframes ringBell {
+    0% { transform: rotate(0deg); }
+    25% { transform: rotate(15deg); }
+    75% { transform: rotate(-15deg); }
+    100% { transform: rotate(0deg); }
+}
+
+@keyframes pulseIcon {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+/* Skew Transformation on Badges (Req 26) */
+.badge {
+    transform: skew(-10deg);
+}
+
+/* Animated Progress Bars (Req 31) */
+.progress-bar {
+    width: 0; /* Starts at 0 for animation */
+    animation: loadProgress 1.5s ease-out forwards;
+}
+
+@keyframes loadProgress {
+    from { width: 0; }
+    /* The inline style="width: XX%" overrides the animation width at the end because of forwards */
+}
+
