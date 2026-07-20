@@ -679,4 +679,17 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // Logout Functionality
+    const logoutBtn = document.getElementById('logout-btn');
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            if (confirm("Are you sure you want to log out of the Smart Parking System?")) {
+                alert("You have been successfully logged out.");
+                // Simulate logout by resetting the page
+                window.scrollTo(0, 0);
+                location.reload();
+            }
+        });
+    }
 });
