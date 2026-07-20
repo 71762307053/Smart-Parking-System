@@ -508,6 +508,27 @@
             <p style="text-align: center; color: var(--text-secondary);">Find FAQs, user manuals, and ticketing support here to navigate our Smart Parking System effectively.</p>
         </section>
 
+        <!-- Automated Image Slider (CSS/JS) -->
+        <section id="gallery" class="features-services" style="padding: 2rem 6%; border-top: 1px solid var(--border-color);">
+            <h2 class="section-title" style="text-align: center; margin: 0 auto 2rem; display: block;">Facility Gallery</h2>
+            <div class="slider-container" style="width: 100%; max-width: 900px; margin: 0 auto; overflow: hidden; border-radius: 12px; box-shadow: var(--card-shadow); position: relative;">
+                <div class="slider-track" id="slider-track" style="display: flex; transition: transform 0.5s ease;">
+                    <div class="slide" style="min-width: 100%; position: relative;">
+                        <img src="https://images.unsplash.com/photo-1506521781263-d8422e82fd6d?w=900&q=80" alt="Entrance" style="width: 100%; height: 400px; object-fit: cover;">
+                        <div class="slide-caption" style="position: absolute; bottom: 0; background: rgba(0,0,0,0.7); color: #fff; width: 100%; padding: 1rem; text-align: center;">Smart Entrance Gates</div>
+                    </div>
+                    <div class="slide" style="min-width: 100%; position: relative;">
+                        <img src="https://images.unsplash.com/photo-1573348722427-f1d6819fdf98?w=900&q=80" alt="Security" style="width: 100%; height: 400px; object-fit: cover;">
+                        <div class="slide-caption" style="position: absolute; bottom: 0; background: rgba(0,0,0,0.7); color: #fff; width: 100%; padding: 1rem; text-align: center;">24/7 CCTV Monitoring</div>
+                    </div>
+                    <div class="slide" style="min-width: 100%; position: relative;">
+                        <img src="https://images.unsplash.com/photo-1590674899484-d5640e854abe?w=900&q=80" alt="EV Charging" style="width: 100%; height: 400px; object-fit: cover;">
+                        <div class="slide-caption" style="position: absolute; bottom: 0; background: rgba(0,0,0,0.7); color: #fff; width: 100%; padding: 1rem; text-align: center;">Fast EV Charging Bays</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- Registration Form (Advanced HTML5 Elements) -->
         <section id="registration" class="registration-section">
             <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 2rem; max-width: 1100px; margin: 0 auto;">
@@ -681,7 +702,7 @@
                     <h3 style="margin-bottom: 1rem; color: var(--primary);">2. Generate Digital Pass</h3>
                     <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1.5rem;">Issue a digital QR code ticket encoded with your billing parameters for autonomous gate access.</p>
                     
-                    <button id="generate-qr-btn" class="btn btn-primary" style="width: 100%; max-width: 250px; margin-bottom: 1.5rem;">Generate QR Pass</button>
+                    <button id="generate-qr-btn" class="btn btn-primary css-tooltip" data-tooltip="Generate instantly!" style="width: 100%; max-width: 250px; margin-bottom: 1.5rem;">Generate QR Pass</button>
                     
                     <!-- QR Code Canvas Container -->
                     <div id="qrcode-container" style="background-color: white; padding: 10px; border-radius: 8px; display: none;"></div>

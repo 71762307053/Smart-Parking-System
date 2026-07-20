@@ -1256,3 +1256,77 @@ footer {
     border-color: #3b82f6;
     color: #3b82f6;
 }
+
+/* =========================================
+   Missing Assignment Requirements Added 
+   ========================================= */
+
+/* 25. CSS Pseudo Elements */
+::selection {
+    background-color: var(--primary);
+    color: #fff;
+}
+
+.description::first-line {
+    font-weight: 600;
+}
+
+.description::first-letter {
+    font-size: 1.5rem;
+    color: var(--primary);
+    font-weight: bold;
+}
+
+/* 32. CSS Tooltips */
+.css-tooltip {
+    position: relative;
+}
+
+.css-tooltip::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 120%;
+    left: 50%;
+    transform: translateX(-50%) scale(0);
+    background-color: #1a1a1a;
+    color: #fff;
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    opacity: 0;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+    pointer-events: none;
+    z-index: 100;
+}
+
+.css-tooltip::before {
+    content: '';
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%) scale(0);
+    border: 6px solid transparent;
+    border-top-color: #1a1a1a;
+    opacity: 0;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+    pointer-events: none;
+}
+
+.css-tooltip:hover::after,
+.css-tooltip:hover::before {
+    transform: translateX(-50%) scale(1);
+    opacity: 1;
+}
+
+/* 29. Image Hover Effects for Slider */
+.slide img {
+    filter: grayscale(30%);
+    transition: transform 0.5s ease, filter 0.5s ease;
+}
+
+.slide:hover img {
+    transform: scale(1.05); /* Zoom */
+    filter: grayscale(0) blur(1px); /* Grayscale & Blur */
+}
+
