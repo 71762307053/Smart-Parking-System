@@ -1320,12 +1320,12 @@ footer {
 }
 
 /* 29. Image Hover Effects for Slider */
-.slide img {
+.gallery-slide img {
     filter: grayscale(30%);
     transition: transform 0.5s ease, filter 0.5s ease;
 }
 
-.slide:hover img {
+.gallery-slide:hover img {
     transform: scale(1.05); /* Zoom */
     filter: grayscale(0) blur(1px); /* Grayscale & Blur */
 }

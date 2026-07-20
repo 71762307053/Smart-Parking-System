@@ -646,7 +646,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let autoSlideInterval;
 
     if (sliderTrack) {
-        const slideCount = document.querySelectorAll('.slide').length;
+        const slideCount = document.querySelectorAll('.gallery-slide').length;
         
         function goToSlide(index) {
             slideIndex = index;
