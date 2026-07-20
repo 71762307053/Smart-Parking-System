@@ -209,6 +209,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('registration-form');
     form.addEventListener('submit', (e) => {
         e.preventDefault();
+        
         let valid = true;
 
         const name = document.getElementById('name');
@@ -635,5 +636,44 @@ document.addEventListener('DOMContentLoaded', () => {
         qrContainer.style.display = 'block';
         addNotification(`QR Ticket ${ticketID} generated successfully!`, 'success');
     });
+
+    // Automated Image Slider Logic (Assignment 4 Addition)
+    const sliderTrack = document.getElementById('slider-track');
+    let slideIndex = 0;
+    let autoSlideInterval;
+
+    if (sliderTrack) {
+        const slideCount = document.querySelectorAll('.slide').length;
+        
+        function goToSlide(index) {
+            slideIndex = index;
+            if (slideIndex >= slideCount) slideIndex = 0;
+            if (slideIndex < 0) slideIndex = slideCount - 1;
+            sliderTrack.style.transform = `translateX(-${slideIndex * 100}%)`;
+        }
+
+        function autoSlide() {
+            goToSlide(slideIndex + 1);
+        }
+        
+        autoSlideInterval = setInterval(autoSlide, 3000);
+
+        // Manual Navigation Logic
+        const prevBtn = document.getElementById('prev-slide');
+        const nextBtn = document.getElementById('next-slide');
+
+        if (prevBtn && nextBtn) {
+            prevBtn.addEventListener('click', () => {
+                clearInterval(autoSlideInterval); // Stop auto when clicked manually
+                goToSlide(slideIndex - 1);
+                autoSlideInterval = setInterval(autoSlide, 3000); // Restart auto
+            });
+            nextBtn.addEventListener('click', () => {
+                clearInterval(autoSlideInterval);
+                goToSlide(slideIndex + 1);
+                autoSlideInterval = setInterval(autoSlide, 3000);
+            });
+        }
+    }
 
 });
