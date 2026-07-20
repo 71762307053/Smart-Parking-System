@@ -78,6 +78,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 slot.querySelector('.slot-status').innerText = 'Available';
                 state.activeSlots++;
                 addNotification(`Slot ${slot.dataset.slot} is now vacant.`, 'warning');
+            }
+            updateStatsDisplay();
+            updateChart();
         });
     });
 
