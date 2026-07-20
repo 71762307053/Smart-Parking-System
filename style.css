@@ -1359,3 +1359,8 @@ footer {
 #prev-slide { left: 10px; }
 #next-slide { right: 10px; }
 
+/* Ensure SVG icons do not intercept button clicks */
+button svg, .btn svg {
+    pointer-events: none;
+}
+
