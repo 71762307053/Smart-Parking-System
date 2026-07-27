@@ -727,22 +727,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Dynamic Stats Rotation Logic
     const statsCards = document.querySelectorAll('.stat-card');
-    const userVal = document.getElementById('total-users-val');
-    const revenueVal = document.getElementById('revenue-val');
-    const txVal = document.getElementById('tx-val');
+    const dUserVal = document.getElementById('total-users-val');
+    const dRevenueVal = document.getElementById('revenue-val');
+    const dTxVal = document.getElementById('tx-val');
 
-    if (userVal && revenueVal && txVal && statsCards.length > 0) {
+    if (dUserVal && dRevenueVal && dTxVal && statsCards.length > 0) {
         setInterval(() => {
             // Randomly update numbers to simulate live dynamic rotation
-            let users = parseInt(userVal.textContent.replace(/,/g, ''));
-            let tx = parseInt(txVal.textContent.replace(/,/g, ''));
+            let users = parseInt(dUserVal.textContent.replace(/,/g, ''));
+            let tx = parseInt(dTxVal.textContent.replace(/,/g, ''));
             
             users += Math.floor(Math.random() * 3);
             tx += Math.floor(Math.random() * 5);
             
-            userVal.textContent = users.toString();
-            txVal.textContent = tx.toString();
-            revenueVal.textContent = '$' + (12.4 + (Math.random() * 0.1)).toFixed(2) + 'k';
+            dUserVal.textContent = users.toString();
+            dTxVal.textContent = tx.toString();
+            dRevenueVal.textContent = '$' + (12.4 + (Math.random() * 0.1)).toFixed(2) + 'k';
 
             // Add rotation flip animation class to a random card
             const randomCard = statsCards[Math.floor(Math.random() * statsCards.length)];
