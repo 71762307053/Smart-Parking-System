@@ -1382,7 +1382,7 @@ button svg, .btn svg {
 }
 
 /* Dynamic Stats Icon Rotation Animation */
-.stat-icon svg {
+.stat-icon i {
     animation: slowSpin 8s linear infinite;
 }
 
@@ -1391,7 +1391,7 @@ button svg, .btn svg {
     100% { transform: rotateY(360deg); }
 }
 
-.stat-rotate .stat-icon svg {
+.stat-rotate .stat-icon i {
     color: var(--primary); /* Adds a splash of color when updating */
     transform: scale(1.2);
     transition: transform 0.3s;
