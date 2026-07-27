@@ -692,4 +692,64 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+    // Dynamic Javascript Typing Effect
+    const typingTextElement = document.getElementById('dynamic-typing-text');
+    if (typingTextElement) {
+        const typingWords = ["Smart Parking for Smart Cities", "Efficiently Navigating Urban Spaces", "Secure & Real-Time Tracking"];
+        let wordIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+
+        function typeEffect() {
+            const currentWord = typingWords[wordIndex];
+            if (isDeleting) {
+                typingTextElement.textContent = currentWord.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                typingTextElement.textContent = currentWord.substring(0, charIndex + 1);
+                charIndex++;
+            }
+
+            let typeSpeed = isDeleting ? 50 : 100;
+
+            if (!isDeleting && charIndex === currentWord.length) {
+                typeSpeed = 2000; // Pause at end of word
+                isDeleting = true;
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                wordIndex = (wordIndex + 1) % typingWords.length;
+                typeSpeed = 500; // Pause before next word
+            }
+            setTimeout(typeEffect, typeSpeed);
+        }
+        typeEffect();
+    }
+
+    // Dynamic Stats Rotation Logic
+    const statsCards = document.querySelectorAll('.stat-card');
+    const userVal = document.getElementById('total-users-val');
+    const revenueVal = document.getElementById('revenue-val');
+    const txVal = document.getElementById('tx-val');
+
+    if (userVal && revenueVal && txVal && statsCards.length > 0) {
+        setInterval(() => {
+            // Randomly update numbers to simulate live dynamic rotation
+            let users = parseInt(userVal.textContent.replace(/,/g, ''));
+            let tx = parseInt(txVal.textContent.replace(/,/g, ''));
+            
+            users += Math.floor(Math.random() * 3);
+            tx += Math.floor(Math.random() * 5);
+            
+            userVal.textContent = users.toString();
+            txVal.textContent = tx.toString();
+            revenueVal.textContent = '$' + (12.4 + (Math.random() * 0.1)).toFixed(2) + 'k';
+
+            // Add rotation flip animation class to a random card
+            const randomCard = statsCards[Math.floor(Math.random() * statsCards.length)];
+            randomCard.classList.remove('stat-rotate');
+            void randomCard.offsetWidth; // Trigger reflow
+            randomCard.classList.add('stat-rotate');
+
+        }, 4000); // Rotate every 4 seconds
+    }
 });
