@@ -839,7 +839,21 @@ document.addEventListener('DOMContentLoaded', () => {
                     slot.querySelector('.slot-status').textContent = 'Occupied';
                     parkBtn.textContent = 'Parked';
                     parkBtn.disabled = true;
-                    alert(`Slot ${slot.getAttribute('data-id')} is now booked and occupied.`);
+                    
+                    if (typeof addNotification === 'function') {
+                        addNotification(`Slot ${slot.getAttribute('data-id')} is now booked and occupied.`, 'success');
+                    } else {
+                        alert(`Slot ${slot.getAttribute('data-id')} is now booked and occupied.`);
+                    }
+
+                    // Update vacant slots if element exists
+                    const activeSlotsCount = document.getElementById('active-slots-val');
+                    if (activeSlotsCount) {
+                        let currentVacant = parseInt(activeSlotsCount.innerText);
+                        if (!isNaN(currentVacant) && currentVacant > 0) {
+                            activeSlotsCount.innerText = currentVacant - 1;
+                        }
+                    }
                 }
             });
         }
