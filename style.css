@@ -1436,4 +1436,88 @@ button svg, .btn svg {
     from { width: 0; }
     /* The inline style="width: XX%" overrides the animation width at the end because of forwards */
 }
+}
 
+/* --- Smart Parking Javascript Event Handling CSS --- */
+
+/* Module 1: Catalog Slots */
+.catalog-slot {
+    border: 1px solid var(--border-color);
+    background: var(--bg-panel);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    text-align: center;
+    position: relative;
+    transition: var(--transition);
+}
+.catalog-slot.available { border-top: 3px solid var(--primary); }
+.catalog-slot.occupied { border-top: 3px solid var(--danger); opacity: 0.8; }
+
+.fav-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: color 0.2s;
+}
+.fav-icon.filled { color: #f59e0b; }
+
+.slot-details {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin: 0.5rem 0;
+}
+
+.park-btn {
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+.park-btn:disabled { background: var(--border-color); cursor: not-allowed; }
+
+.hover-preview {
+    position: absolute;
+    top: -80px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.9);
+    color: #fff;
+    padding: 0.8rem;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    width: 150px;
+    z-index: 10;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+.catalog-slot.show-preview .hover-preview { opacity: 1; }
+
+/* Module 6: Feedback */
+.reply-input-container {
+    margin-top: 1rem;
+    padding-left: 2rem;
+    border-left: 2px solid var(--border-color);
+}
+.reply-input-container textarea {
+    width: 100%;
+    padding: 0.8rem;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    background: var(--bg-app);
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+.comment-card {
+    transition: background 0.3s;
+}
+.comment-card:hover {
+    background: rgba(255,255,255,0.08);
+}

@@ -203,43 +203,118 @@
                 </div>
             </div>
 
-            <!-- Clickable Interactive Parking Lot Grid -->
+            <!-- Module 5 & 1: Filter Bar & Slot Catalog -->
             <div class="grid-container">
-                <h3 style="margin-bottom: 0.5rem;">Interactive Grid Control (Zone A)</h3>
-                <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1.5rem;">Click on any parking slot below to simulate user booking or vacancy in real-time.</p>
-                <div class="parking-layout">
-                    <div class="parking-slot available" data-slot="A-1">
+                <h3 style="margin-bottom: 0.5rem;">Parking Slot Catalog (Modules 1 & 5)</h3>
+                
+                <div class="filter-bar" style="display: flex; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap;">
+                    <input type="text" id="search-slot" placeholder="Search Slot ID (Press Enter)" style="flex: 1; min-width: 200px; padding: 0.8rem; border-radius: 6px; border: 1px solid var(--border-color); background: var(--bg-panel); color: var(--text-primary);">
+                    <select id="filter-zone" style="padding: 0.8rem; border-radius: 6px; border: 1px solid var(--border-color); background: var(--bg-panel); color: var(--text-primary);">
+                        <option value="all">All Zones</option>
+                        <option value="Zone A">Zone A</option>
+                        <option value="Zone B">Zone B</option>
+                    </select>
+                    <select id="filter-vehicle" style="padding: 0.8rem; border-radius: 6px; border: 1px solid var(--border-color); background: var(--bg-panel); color: var(--text-primary);">
+                        <option value="all">All Vehicles</option>
+                        <option value="Car">Car</option>
+                        <option value="EV">EV</option>
+                    </select>
+                    <select id="filter-status" style="padding: 0.8rem; border-radius: 6px; border: 1px solid var(--border-color); background: var(--bg-panel); color: var(--text-primary);">
+                        <option value="all">All Status</option>
+                        <option value="Available">Available</option>
+                        <option value="Occupied">Occupied</option>
+                    </select>
+                </div>
+
+                <div class="parking-layout" id="slot-catalog">
+                    <!-- Slot Cards (Module 1) -->
+                    <div class="catalog-slot available" data-id="A-1" data-zone="Zone A" data-vehicle="Car" data-price="5" data-status="Available">
+                        <i class="fa-regular fa-star fav-icon"></i>
                         <span class="slot-name">A-1</span>
+                        <div class="slot-details">Car | Zone A | $5/hr</div>
                         <span class="slot-status">Available</span>
+                        <button class="park-btn">Park Vehicle</button>
+                        <div class="hover-preview">Preview: A-1<br>Zone A, $5/hr<br>Available</div>
                     </div>
-                    <div class="parking-slot occupied" data-slot="A-2">
+                    <div class="catalog-slot occupied" data-id="A-2" data-zone="Zone A" data-vehicle="Car" data-price="5" data-status="Occupied">
+                        <i class="fa-regular fa-star fav-icon"></i>
                         <span class="slot-name">A-2</span>
+                        <div class="slot-details">Car | Zone A | $5/hr</div>
                         <span class="slot-status">Occupied</span>
+                        <button class="park-btn" disabled>Park Vehicle</button>
+                        <div class="hover-preview">Preview: A-2<br>Zone A, $5/hr<br>Occupied</div>
                     </div>
-                    <div class="parking-slot available" data-slot="A-3">
-                        <span class="slot-name">A-3</span>
+                    <div class="catalog-slot available" data-id="B-1" data-zone="Zone B" data-vehicle="EV" data-price="3" data-status="Available">
+                        <i class="fa-regular fa-star fav-icon"></i>
+                        <span class="slot-name">B-1</span>
+                        <div class="slot-details">EV | Zone B | $3/hr</div>
                         <span class="slot-status">Available</span>
+                        <button class="park-btn">Park Vehicle</button>
+                        <div class="hover-preview">Preview: B-1<br>Zone B (EV), $3/hr<br>Available</div>
                     </div>
-                    <div class="parking-slot available" data-slot="A-4">
-                        <span class="slot-name">A-4</span>
+                    <div class="catalog-slot available" data-id="B-2" data-zone="Zone B" data-vehicle="Car" data-price="5" data-status="Available">
+                        <i class="fa-regular fa-star fav-icon"></i>
+                        <span class="slot-name">B-2</span>
+                        <div class="slot-details">Car | Zone B | $5/hr</div>
                         <span class="slot-status">Available</span>
+                        <button class="park-btn">Park Vehicle</button>
+                        <div class="hover-preview">Preview: B-2<br>Zone B, $5/hr<br>Available</div>
                     </div>
-                    <div class="parking-slot occupied" data-slot="A-5">
-                        <span class="slot-name">A-5</span>
-                        <span class="slot-status">Occupied</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Module 2: Live Parking Session Timer -->
+        <section class="session-timer-section" style="padding: 2rem 6%; border-top: 1px solid var(--border-color);">
+            <div class="glass-card" id="active-session-card" style="display: none; max-width: 800px; margin: 0 auto; text-align: center;">
+                <h3 style="color: var(--primary); margin-bottom: 1rem;">Active Parking Session</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem; text-align: left;">
+                    <div><strong>Vehicle:</strong> <span id="sess-vehicle">-</span></div>
+                    <div><strong>Slot:</strong> <span id="sess-slot">-</span></div>
+                    <div><strong>Entry Time:</strong> <span id="sess-time">-</span></div>
+                    <div><strong>Current Fee:</strong> $<span id="sess-fee">0.00</span></div>
+                </div>
+                
+                <h2 id="sess-duration" style="font-size: 2.5rem; margin-bottom: 1rem; color: var(--text-primary);">00:00:00</h2>
+                
+                <div style="margin-bottom: 1.5rem; text-align: left;">
+                    <label for="reminder-slider" style="display:block; margin-bottom:0.5rem; font-weight: bold;">Duration Reminder (<span id="reminder-val">1</span> Hours)</label>
+                    <input type="range" id="reminder-slider" min="1" max="12" value="1" style="width: 100%;">
+                </div>
+                
+                <div class="progress-container" style="height: 10px; margin-bottom: 1.5rem; cursor: pointer;" id="sess-progress-bg">
+                    <div class="progress-bar" id="sess-progress-bar" style="width: 0%; transition: width 1s linear;"></div>
+                </div>
+
+                <button id="btn-toggle-session" class="btn btn-primary" style="padding: 0.8rem 2rem;">Start Session</button>
+            </div>
+        </section>
+
+        <!-- Module 4: Parking Preference Assessment -->
+        <section class="quiz-section" style="padding: 2rem 6%; border-top: 1px solid var(--border-color);">
+            <h2 class="section-title">Parking Preferences (Module 4)</h2>
+            <div class="glass-card" style="max-width: 800px; margin: 0 auto;">
+                <div id="quiz-container">
+                    <div class="quiz-question" style="margin-bottom: 1.5rem;">
+                        <h4 style="margin-bottom: 0.5rem;">1. Which parking duration do you need?</h4>
+                        <label><input type="radio" name="q1" value="1 Hour"> 1 Hour</label> &nbsp;
+                        <label><input type="radio" name="q1" value="4 Hours"> 4 Hours</label> &nbsp;
+                        <label><input type="radio" name="q1" value="Full Day"> Full Day</label>
                     </div>
-                    <div class="parking-slot available" data-slot="A-6">
-                        <span class="slot-name">A-6</span>
-                        <span class="slot-status">Available</span>
+                    <div class="quiz-question" style="margin-bottom: 1.5rem;">
+                        <h4 style="margin-bottom: 0.5rem;">2. Which vehicle are you parking?</h4>
+                        <label><input type="radio" name="q2" value="Car"> Car</label> &nbsp;
+                        <label><input type="radio" name="q2" value="EV"> Electric Vehicle</label> &nbsp;
+                        <label><input type="radio" name="q2" value="Bike"> Bike</label>
                     </div>
-                    <div class="parking-slot occupied" data-slot="A-7">
-                        <span class="slot-name">A-7</span>
-                        <span class="slot-status">Occupied</span>
-                    </div>
-                    <div class="parking-slot available" data-slot="A-8">
-                        <span class="slot-name">A-8</span>
-                        <span class="slot-status">Available</span>
-                    </div>
+                    <button id="btn-confirm-pref" class="btn btn-primary">Confirm Preferences</button>
+                </div>
+                
+                <div id="quiz-result" style="display: none; margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--border-color);">
+                    <h3 style="color: var(--primary);">Recommended: <span id="rec-slot">...</span></h3>
+                    <p style="margin-top: 1rem;">Your temporary reservation timer has started.</p>
+                    <h2 id="reservation-timer" style="color: var(--danger); font-size: 2.5rem; margin: 1rem 0;">60s</h2>
+                    <button id="btn-start-res" class="btn btn-secondary">Start Reservation Timer</button>
                 </div>
             </div>
         </section>
@@ -623,9 +698,30 @@
                                     <label style="font-weight: 500; display: flex; align-items: center; gap: 0.4rem;">
                                         <input type="checkbox" name="interests" value="analytics" style="width: auto;"> Database & Analytics
                                     </label>
-                                    <label style="font-weight: 500; display: flex; align-items: center; gap: 0.4rem;">
-                                        <input type="checkbox" name="interests" value="ev" style="width: auto;"> EV Power Station Networks
-                                    </label>
+                                    <div class="form-group">
+                                        <label for="vehicle-num">Vehicle Number <span class="required">*</span></label>
+                                        <input type="text" id="vehicle-num" name="vehicle_num" placeholder="e.g. ABC-1234" required>
+                                        <span class="error-msg" id="err-vehicle" style="color:var(--danger); font-size:0.8rem; display:none;"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="reg-password">Password <span class="required">*</span></label>
+                                        <input type="password" id="reg-password" name="password" required>
+                                        <span class="error-msg" id="err-pwd" style="color:var(--danger); font-size:0.8rem; display:none;"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="confirm-password">Confirm Password <span class="required">*</span></label>
+                                        <input type="password" id="confirm-password" name="confirm_password" required>
+                                        <span class="error-msg" id="err-cpwd" style="color:var(--danger); font-size:0.8rem; display:none;"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Parking Options & Add-ons</label>
+                                        <label style="font-weight: 500; display: flex; align-items: center; gap: 0.4rem; margin-bottom: 0.5rem;">
+                                            <input type="checkbox" name="interests" value="monthly" style="width: auto;"> Monthly Access Pass
+                                        </label>
+                                        <label style="font-weight: 500; display: flex; align-items: center; gap: 0.4rem;">
+                                            <input type="checkbox" name="interests" value="ev" style="width: auto;"> EV Power Station Networks
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-group full-width">
@@ -645,7 +741,7 @@
                                 Register
                             </button>
                             <button type="reset" class="btn btn-secondary">Reset Fields</button>
-                            <button type="button" class="btn btn-secondary" onclick="if(confirm('Cancel registration?')) document.getElementById('registration-form').reset();" style="background-color: var(--danger-light); color: var(--danger);">Cancel</button>
+                            <button type="button" id="btn-cancel-reg" class="btn btn-secondary" style="background-color: var(--danger-light); color: var(--danger);">Cancel</button>
                         </div>
                     </form>
                 </div>
@@ -745,6 +841,62 @@
                     <div id="qrcode-container" style="background-color: white; padding: 10px; border-radius: 8px; display: none;"></div>
                 </div>
 
+            </div>
+        </section>
+
+        <!-- Module 7: Driver Dashboard Tracker -->
+        <section class="driver-dashboard" style="padding: 2rem 6%; border-top: 1px solid var(--border-color); background: rgba(16,185,129,0.05);">
+            <h2 class="section-title">Driver Dashboard (Module 7)</h2>
+            <div class="glass-card" style="max-width: 800px; margin: 0 auto; overflow: hidden; transition: all 0.3s ease;" id="tracker-card">
+                <div style="display: flex; justify-content: space-between; align-items: center; cursor: pointer;" id="tracker-header">
+                    <div>
+                        <h3 style="color: var(--primary);">Current Session: <span id="tracker-slot">A-1</span></h3>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary);">Vehicle: <span id="tracker-vehicle">Car</span> | Zone: <span id="tracker-zone">Zone A</span></p>
+                    </div>
+                    <i class="fa-solid fa-chevron-down" id="tracker-chevron" style="transition: transform 0.3s;"></i>
+                </div>
+                
+                <div id="tracker-details" style="display: none; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border-color);">
+                    <div style="margin-bottom: 1rem;">
+                        <strong>Entry Time:</strong> <span id="tracker-entry">--:--:--</span>
+                    </div>
+                    <div style="margin-bottom: 1rem;">
+                        <strong>Progress Tracker:</strong>
+                        <div class="progress-container" style="height: 15px; margin-top: 0.5rem; position: relative;" id="tracker-progress-bg">
+                            <div class="progress-bar" id="tracker-progress-fill" style="width: 45%; background: linear-gradient(90deg, #10b981, #0ea5e9);"></div>
+                            <div id="tracker-tooltip" style="display: none; position: absolute; top: -30px; left: 45%; transform: translateX(-50%); background: #333; color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; white-space: nowrap;">45% Complete</div>
+                        </div>
+                    </div>
+                    <div style="margin-top: 1.5rem;">
+                        <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                            <input type="checkbox" id="tracker-complete-check" style="width: 1.2rem; height: 1.2rem; accent-color: var(--primary);">
+                            <strong>Mark Parking Complete</strong>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Module 6: Parking Feedback & Discussion -->
+        <section class="feedback-section" style="padding: 2rem 6%; border-top: 1px solid var(--border-color);">
+            <h2 class="section-title">Parking Discussion (Module 6)</h2>
+            <div class="glass-card" style="max-width: 800px; margin: 0 auto;">
+                <form id="feedback-form" style="margin-bottom: 2rem;">
+                    <textarea id="feedback-input" placeholder="Post a question, suggestion, or review... (Double click your posted comment later to edit)" rows="3" style="width: 100%; padding: 1rem; border-radius: 6px; border: 1px solid var(--border-color); background: var(--bg-panel); color: var(--text-primary); margin-bottom: 1rem; font-family: inherit;" required></textarea>
+                    <button type="submit" class="btn btn-primary" style="padding: 0.6rem 1.5rem;">Post Comment</button>
+                </form>
+                
+                <div id="comments-container" style="display: flex; flex-direction: column; gap: 1rem;">
+                    <!-- Static Example Comment -->
+                    <div class="comment-card" style="padding: 1rem; border-radius: 8px; background: rgba(255,255,255,0.05); border: 1px solid var(--border-color);">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                            <strong style="color: var(--primary);">Admin</strong>
+                            <span style="font-size: 0.8rem; color: var(--text-secondary);">Just now</span>
+                        </div>
+                        <p class="comment-text" style="margin-bottom: 0.8rem; line-height: 1.4;">Welcome to the new interactive discussion board! Feel free to ask questions.</p>
+                        <button class="reply-btn btn" style="font-size: 0.8rem; padding: 0.3rem 0.8rem; background: transparent; border: 1px solid var(--text-secondary); color: var(--text-secondary);">Reply</button>
+                    </div>
+                </div>
             </div>
         </section>
 

@@ -752,4 +752,377 @@ document.addEventListener('DOMContentLoaded', () => {
 
         }, 4000); // Rotate every 4 seconds
     }
+    // ==========================================
+    // MODULES 1-7: JAVASCRIPT EVENT HANDLING ASSIGNMENT
+    // ==========================================
+
+    // --- Module 1 & 5: Slot Catalog & Filter Bar ---
+    const searchSlot = document.getElementById('search-slot');
+    const filterZone = document.getElementById('filter-zone');
+    const filterVehicle = document.getElementById('filter-vehicle');
+    const filterStatus = document.getElementById('filter-status');
+    const catalogSlots = document.querySelectorAll('.catalog-slot');
+
+    function filterSlots() {
+        const query = searchSlot.value.toLowerCase();
+        const zone = filterZone.value;
+        const vehicle = filterVehicle.value;
+        const status = filterStatus.value;
+
+        catalogSlots.forEach(slot => {
+            const slotId = slot.getAttribute('data-id').toLowerCase();
+            const slotZone = slot.getAttribute('data-zone');
+            const slotVehicle = slot.getAttribute('data-vehicle');
+            const slotStatus = slot.getAttribute('data-status');
+
+            const matchQuery = slotId.includes(query);
+            const matchZone = (zone === 'all' || slotZone === zone);
+            const matchVehicle = (vehicle === 'all' || slotVehicle === vehicle);
+            const matchStatus = (status === 'all' || slotStatus === status);
+
+            if (matchQuery && matchZone && matchVehicle && matchStatus) {
+                slot.style.display = 'block';
+            } else {
+                slot.style.display = 'none';
+            }
+        });
+    }
+
+    // Module 5 Events: input, change, keydown
+    if(searchSlot) {
+        searchSlot.addEventListener('input', filterSlots);
+        searchSlot.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                filterSlots();
+            }
+        });
+        filterZone.addEventListener('change', filterSlots);
+        filterVehicle.addEventListener('change', filterSlots);
+        filterStatus.addEventListener('change', filterSlots);
+    }
+
+    // Module 1 Events: mouseover, mouseout, click
+    catalogSlots.forEach(slot => {
+        // Mouseover/Mouseout - Preview overlay
+        slot.addEventListener('mouseover', () => {
+            slot.classList.add('show-preview');
+        });
+        slot.addEventListener('mouseout', () => {
+            slot.classList.remove('show-preview');
+        });
+
+        // Click - Favorite Toggle
+        const favIcon = slot.querySelector('.fav-icon');
+        if (favIcon) {
+            favIcon.addEventListener('click', (e) => {
+                e.stopPropagation(); // prevent triggering park
+                if (favIcon.classList.contains('fa-regular')) {
+                    favIcon.classList.remove('fa-regular');
+                    favIcon.classList.add('fa-solid', 'filled');
+                } else {
+                    favIcon.classList.add('fa-regular');
+                    favIcon.classList.remove('fa-solid', 'filled');
+                }
+            });
+        }
+
+        // Click - Park Vehicle
+        const parkBtn = slot.querySelector('.park-btn');
+        if (parkBtn) {
+            parkBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (slot.classList.contains('available')) {
+                    slot.classList.remove('available');
+                    slot.classList.add('occupied');
+                    slot.setAttribute('data-status', 'Occupied');
+                    slot.querySelector('.slot-status').textContent = 'Occupied';
+                    parkBtn.textContent = 'Parked';
+                    parkBtn.disabled = true;
+                    alert(`Slot ${slot.getAttribute('data-id')} is now booked and occupied.`);
+                }
+            });
+        }
+    });
+
+    // --- Module 2: Session Timer ---
+    const sessionCard = document.getElementById('active-session-card');
+    const btnToggleSession = document.getElementById('btn-toggle-session');
+    const sessDuration = document.getElementById('sess-duration');
+    const sessFee = document.getElementById('sess-fee');
+    const reminderSlider = document.getElementById('reminder-slider');
+    const reminderVal = document.getElementById('reminder-val');
+    const sessProgressBar = document.getElementById('sess-progress-bar');
+    
+    let sessionInterval = null;
+    let secondsElapsed = 0;
+    
+    if (sessionCard && btnToggleSession) {
+        sessionCard.style.display = 'block'; // Show it for demo
+        
+        // Input Event for Range Slider
+        reminderSlider.addEventListener('input', (e) => {
+            reminderVal.textContent = e.target.value;
+        });
+
+        // Click Event for Timer Start/Pause
+        btnToggleSession.addEventListener('click', () => {
+            if (sessionInterval) {
+                // Pause
+                clearInterval(sessionInterval);
+                sessionInterval = null;
+                btnToggleSession.textContent = 'Resume Session';
+            } else {
+                // Start
+                btnToggleSession.textContent = 'Pause Session';
+                sessionInterval = setInterval(() => {
+                    secondsElapsed++;
+                    
+                    // Format time
+                    const hrs = String(Math.floor(secondsElapsed / 3600)).padStart(2, '0');
+                    const mins = String(Math.floor((secondsElapsed % 3600) / 60)).padStart(2, '0');
+                    const secs = String(secondsElapsed % 60).padStart(2, '0');
+                    sessDuration.textContent = `${hrs}:${mins}:${secs}`;
+                    
+                    // Update fee ($0.05 per second for demo speed)
+                    sessFee.textContent = (secondsElapsed * 0.05).toFixed(2);
+                    
+                    // Update progress (simulating 1 hour max for visual)
+                    const progressPct = Math.min((secondsElapsed / 60) * 100, 100);
+                    sessProgressBar.style.width = progressPct + '%';
+                }, 1000);
+            }
+        });
+    }
+
+    // --- Module 3: Registration Form (blur, input, preventDefault) ---
+    const regForm = document.getElementById('registration-form');
+    const regPassword = document.getElementById('reg-password');
+    const confirmPassword = document.getElementById('confirm-password');
+    const errCpwd = document.getElementById('err-cpwd');
+    const phoneInput = document.getElementById('phone');
+    const btnCancelReg = document.getElementById('btn-cancel-reg');
+
+    if (regForm) {
+        // Submit event with preventDefault
+        regForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            if (regPassword.value !== confirmPassword.value) {
+                alert("Passwords do not match. Please fix errors before submitting.");
+                return;
+            }
+            alert("Booking Registration Successful!");
+            regForm.reset();
+            errCpwd.style.display = 'none';
+        });
+        
+        // Cancel btn click
+        if(btnCancelReg) {
+            btnCancelReg.addEventListener('click', () => {
+                if(confirm('Cancel registration?')) regForm.reset();
+            });
+        }
+
+        // Blur event for validation
+        phoneInput.addEventListener('blur', () => {
+            if (phoneInput.value.length > 0 && phoneInput.value.length < 10) {
+                phoneInput.style.borderColor = 'var(--danger)';
+            } else {
+                phoneInput.style.borderColor = 'var(--border-color)';
+            }
+        });
+
+        // Input event for live password matching
+        confirmPassword.addEventListener('input', () => {
+            if (confirmPassword.value === '') {
+                errCpwd.style.display = 'none';
+            } else if (confirmPassword.value !== regPassword.value) {
+                errCpwd.textContent = 'Passwords do not match!';
+                errCpwd.style.display = 'block';
+                errCpwd.style.color = 'var(--danger)';
+            } else {
+                errCpwd.textContent = 'Passwords match!';
+                errCpwd.style.display = 'block';
+                errCpwd.style.color = '#10b981'; // Green
+            }
+        });
+    }
+
+    // --- Module 4: Parking Preference (change, setInterval timer) ---
+    const quizRadios = document.querySelectorAll('.quiz-question input[type="radio"]');
+    const btnConfirmPref = document.getElementById('btn-confirm-pref');
+    const quizResult = document.getElementById('quiz-result');
+    const recSlot = document.getElementById('rec-slot');
+    const resTimerDisplay = document.getElementById('reservation-timer');
+    const btnStartRes = document.getElementById('btn-start-res');
+
+    let prefData = { duration: '', vehicle: '' };
+
+    if (quizRadios.length > 0) {
+        // Change Event for Radios
+        quizRadios.forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                if(e.target.name === 'q1') prefData.duration = e.target.value;
+                if(e.target.name === 'q2') prefData.vehicle = e.target.value;
+            });
+        });
+
+        btnConfirmPref.addEventListener('click', () => {
+            if (!prefData.duration || !prefData.vehicle) {
+                alert("Please answer all questions.");
+                return;
+            }
+            // Simple logic
+            if (prefData.vehicle === 'EV') recSlot.textContent = "Zone B - EV Station";
+            else if (prefData.duration === 'Full Day') recSlot.textContent = "Premium Covered";
+            else recSlot.textContent = "Zone A - Standard";
+            
+            quizResult.style.display = 'block';
+        });
+
+        let resInterval;
+        btnStartRes.addEventListener('click', () => {
+            btnStartRes.disabled = true;
+            let timeLeft = 60;
+            resTimerDisplay.textContent = timeLeft + "s";
+            
+            resInterval = setInterval(() => {
+                timeLeft--;
+                resTimerDisplay.textContent = timeLeft + "s";
+                if (timeLeft <= 0) {
+                    clearInterval(resInterval);
+                    alert("Reservation time expired!");
+                    quizResult.style.display = 'none';
+                    btnStartRes.disabled = false;
+                }
+            }, 1000);
+        });
+    }
+
+    // --- Module 6: Feedback (Event Delegation, dblclick) ---
+    const feedbackForm = document.getElementById('feedback-form');
+    const feedbackInput = document.getElementById('feedback-input');
+    const commentsContainer = document.getElementById('comments-container');
+
+    if (feedbackForm && commentsContainer) {
+        feedbackForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const text = feedbackInput.value.trim();
+            if (!text) return;
+            
+            // Create comment card dynamically
+            const card = document.createElement('div');
+            card.className = 'comment-card';
+            card.style.cssText = 'padding: 1rem; border-radius: 8px; background: rgba(255,255,255,0.05); border: 1px solid var(--border-color);';
+            card.innerHTML = `
+                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                    <strong style="color: var(--primary);">You</strong>
+                    <span style="font-size: 0.8rem; color: var(--text-secondary);">Just now</span>
+                </div>
+                <p class="comment-text" style="margin-bottom: 0.8rem; line-height: 1.4; cursor: pointer;" title="Double click to edit">${text}</p>
+                <button class="reply-btn btn" style="font-size: 0.8rem; padding: 0.3rem 0.8rem; background: transparent; border: 1px solid var(--text-secondary); color: var(--text-secondary);">Reply</button>
+            `;
+            commentsContainer.prepend(card);
+            feedbackForm.reset();
+        });
+
+        // Event Delegation for dynamically created elements
+        commentsContainer.addEventListener('click', (e) => {
+            if (e.target.classList.contains('reply-btn')) {
+                const parentCard = e.target.closest('.comment-card');
+                
+                // Avoid multiple reply boxes
+                if(parentCard.querySelector('.reply-input-container')) return;
+
+                const replyBox = document.createElement('div');
+                replyBox.className = 'reply-input-container';
+                replyBox.innerHTML = `
+                    <textarea placeholder="Write a reply..."></textarea>
+                    <button class="btn btn-primary submit-reply-btn" style="padding: 0.3rem 1rem; font-size: 0.85rem;">Post Reply</button>
+                `;
+                parentCard.appendChild(replyBox);
+            }
+            
+            if (e.target.classList.contains('submit-reply-btn')) {
+                const replyContainer = e.target.closest('.reply-input-container');
+                const text = replyContainer.querySelector('textarea').value;
+                if(text) {
+                    replyContainer.innerHTML = `<p style="margin-top:0.5rem; font-size:0.9rem; color:var(--text-secondary);"><strong>Reply:</strong> ${text}</p>`;
+                }
+            }
+        });
+
+        // Dblclick to Edit Comment
+        commentsContainer.addEventListener('dblclick', (e) => {
+            if (e.target.classList.contains('comment-text')) {
+                const currentText = e.target.textContent;
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.value = currentText;
+                input.style.cssText = 'width: 100%; padding: 0.5rem; background: var(--bg-app); color: var(--text-primary); border: 1px solid var(--primary); margin-bottom: 0.8rem;';
+                
+                e.target.replaceWith(input);
+                input.focus();
+                
+                input.addEventListener('blur', () => {
+                    const newP = document.createElement('p');
+                    newP.className = 'comment-text';
+                    newP.style.cssText = 'margin-bottom: 0.8rem; line-height: 1.4; cursor: pointer;';
+                    newP.title = "Double click to edit";
+                    newP.textContent = input.value;
+                    input.replaceWith(newP);
+                });
+                input.addEventListener('keydown', (evt) => {
+                    if (evt.key === 'Enter') input.blur();
+                });
+            }
+        });
+    }
+
+    // --- Module 7: Dashboard Tracker ---
+    const trackerHeader = document.getElementById('tracker-header');
+    const trackerDetails = document.getElementById('tracker-details');
+    const trackerChevron = document.getElementById('tracker-chevron');
+    const trackerProgressBg = document.getElementById('tracker-progress-bg');
+    const trackerTooltip = document.getElementById('tracker-tooltip');
+    const trackerCompleteCheck = document.getElementById('tracker-complete-check');
+    const trackerProgressFill = document.getElementById('tracker-progress-fill');
+
+    if (trackerHeader) {
+        // Click to expand
+        trackerHeader.addEventListener('click', () => {
+            if (trackerDetails.style.display === 'none') {
+                trackerDetails.style.display = 'block';
+                trackerChevron.style.transform = 'rotate(180deg)';
+                // Set entry time to now on first open
+                if(document.getElementById('tracker-entry').textContent === '--:--:--') {
+                    document.getElementById('tracker-entry').textContent = new Date().toLocaleTimeString();
+                }
+            } else {
+                trackerDetails.style.display = 'none';
+                trackerChevron.style.transform = 'rotate(0deg)';
+            }
+        });
+
+        // Mouseover for Tooltip
+        trackerProgressBg.addEventListener('mouseover', () => {
+            trackerTooltip.style.display = 'block';
+        });
+        trackerProgressBg.addEventListener('mouseout', () => {
+            trackerTooltip.style.display = 'none';
+        });
+
+        // Change checkbox
+        trackerCompleteCheck.addEventListener('change', (e) => {
+            if (e.target.checked) {
+                trackerProgressFill.style.width = '100%';
+                trackerTooltip.textContent = '100% Complete';
+                document.getElementById('tracker-slot').textContent += ' (Complete)';
+            } else {
+                trackerProgressFill.style.width = '45%';
+                trackerTooltip.textContent = '45% Complete';
+                document.getElementById('tracker-slot').textContent = 'A-1';
+            }
+        });
+    }
 });
