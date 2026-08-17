@@ -103,6 +103,49 @@ document.addEventListener('DOMContentLoaded', () => {
         notifyPanel.classList.remove('active');
     });
 
+    // --- Cart/Reservations Toggle ---
+    const cartBtn = document.getElementById('cart-btn');
+    const cartPanel = document.getElementById('cart-panel');
+    const closeCart = document.getElementById('close-cart');
+    const cartBadge = document.getElementById('cart-badge');
+    const cartList = document.getElementById('cart-list');
+    let reservedCount = 0;
+
+    if (cartBtn && cartPanel) {
+        cartBtn.addEventListener('click', () => {
+            cartPanel.classList.toggle('active');
+        });
+        closeCart.addEventListener('click', () => {
+            cartPanel.classList.remove('active');
+        });
+    }
+
+    const addReservedSlotToCart = (slotId, zone, price) => {
+        const emptyMsg = document.getElementById('empty-cart-msg');
+        if (emptyMsg) emptyMsg.style.display = 'none';
+
+        reservedCount++;
+        if (cartBadge) {
+            cartBadge.textContent = reservedCount;
+            cartBadge.style.display = 'inline-block';
+        }
+
+        const item = document.createElement('div');
+        item.className = `notification-item success`;
+        item.style.borderLeftColor = 'var(--primary)';
+        
+        item.innerHTML = `
+            <div class="notify-icon-badge" style="color: var(--primary);">
+                <i class="fa-solid fa-square-parking"></i>
+            </div>
+            <div class="notify-details">
+                <span class="notify-time">$${price}/hr</span>
+                <p><strong>Slot ${slotId}</strong> - ${zone}</p>
+            </div>
+        `;
+        cartList.appendChild(item);
+    };
+
     const addNotification = (text, type = 'success') => {
         const item = document.createElement('div');
         item.className = `notification-item ${type}`;
@@ -844,6 +887,10 @@ document.addEventListener('DOMContentLoaded', () => {
                         addNotification(`Slot ${slot.getAttribute('data-id')} is now booked and occupied.`, 'success');
                     } else {
                         alert(`Slot ${slot.getAttribute('data-id')} is now booked and occupied.`);
+                    }
+                    
+                    if (typeof addReservedSlotToCart === 'function') {
+                        addReservedSlotToCart(slot.getAttribute('data-id'), slot.getAttribute('data-zone'), slot.getAttribute('data-price'));
                     }
 
                     // Update vacant slots if element exists
