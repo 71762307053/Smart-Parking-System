@@ -863,9 +863,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (favIcon.classList.contains('fa-regular')) {
                     favIcon.classList.remove('fa-regular');
                     favIcon.classList.add('fa-solid', 'filled');
+                    if (typeof addNotification === 'function') addNotification(`Slot added to your favorites!`, 'success');
                 } else {
                     favIcon.classList.add('fa-regular');
                     favIcon.classList.remove('fa-solid', 'filled');
+                    if (typeof addNotification === 'function') addNotification(`Slot removed from favorites.`, 'warning');
                 }
             });
         }
