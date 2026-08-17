@@ -891,6 +891,16 @@ document.addEventListener('DOMContentLoaded', () => {
                     // Update progress (simulating 1 hour max for visual)
                     const progressPct = Math.min((secondsElapsed / 60) * 100, 100);
                     sessProgressBar.style.width = progressPct + '%';
+
+                    // Notification Logic
+                    const reminderSecs = parseInt(reminderSlider.value);
+                    if (secondsElapsed > 0 && secondsElapsed % reminderSecs === 0) {
+                        if (typeof addNotification === 'function') {
+                            addNotification(`Parking session has reached ${secondsElapsed} seconds!`, 'warning');
+                        }
+                        sessDuration.style.color = 'var(--danger)';
+                        setTimeout(() => sessDuration.style.color = 'var(--text-primary)', 2000);
+                    }
                 }, 1000);
             }
         });
@@ -913,6 +923,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 const secs = String(secondsElapsed % 60).padStart(2, '0');
                 sessDuration.textContent = `${hrs}:${mins}:${secs}`;
                 sessFee.textContent = (secondsElapsed * 0.05).toFixed(2);
+                if (typeof addNotification === 'function') {
+                    addNotification(`Session manually adjusted to ${secondsElapsed}s`, 'info');
+                }
             });
         }
     }
@@ -950,6 +963,9 @@ document.addEventListener('DOMContentLoaded', () => {
         phoneInput.addEventListener('blur', () => {
             if (phoneInput.value.length > 0 && phoneInput.value.length < 10) {
                 phoneInput.style.borderColor = 'var(--danger)';
+                if (typeof addNotification === 'function') {
+                    addNotification('Invalid Phone Number. Must be at least 10 digits.', 'warning');
+                }
             } else {
                 phoneInput.style.borderColor = 'var(--border-color)';
             }
@@ -961,6 +977,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
                 if (emailInput.value.length > 0 && !emailRegex.test(emailInput.value)) {
                     emailInput.style.borderColor = 'var(--danger)';
+                    if (typeof addNotification === 'function') {
+                        addNotification('Invalid Email Format.', 'warning');
+                    }
                 } else {
                     emailInput.style.borderColor = 'var(--border-color)';
                 }
