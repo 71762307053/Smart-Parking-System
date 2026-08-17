@@ -853,6 +853,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const reminderSlider = document.getElementById('reminder-slider');
     const reminderVal = document.getElementById('reminder-val');
     const sessProgressBar = document.getElementById('sess-progress-bar');
+    const sessProgressBg = document.getElementById('sess-progress-bg');
     
     let sessionInterval = null;
     let secondsElapsed = 0;
@@ -893,6 +894,27 @@ document.addEventListener('DOMContentLoaded', () => {
                 }, 1000);
             }
         });
+
+        // Click Event on Progress Bar
+        if (sessProgressBg) {
+            sessProgressBg.addEventListener('click', (e) => {
+                // Calculate percentage clicked
+                const rect = sessProgressBg.getBoundingClientRect();
+                const clickX = e.clientX - rect.left;
+                const percentage = Math.max(0, Math.min(100, (clickX / rect.width) * 100));
+                
+                // Set seconds elapsed based on percentage (assuming 60s max for demo)
+                secondsElapsed = Math.floor((percentage / 100) * 60);
+                
+                // Update visuals immediately
+                sessProgressBar.style.width = percentage + '%';
+                const hrs = String(Math.floor(secondsElapsed / 3600)).padStart(2, '0');
+                const mins = String(Math.floor((secondsElapsed % 3600) / 60)).padStart(2, '0');
+                const secs = String(secondsElapsed % 60).padStart(2, '0');
+                sessDuration.textContent = `${hrs}:${mins}:${secs}`;
+                sessFee.textContent = (secondsElapsed * 0.05).toFixed(2);
+            });
+        }
     }
 
     // --- Module 3: Registration Form (blur, input, preventDefault) ---
@@ -901,6 +923,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const confirmPassword = document.getElementById('confirm-password');
     const errCpwd = document.getElementById('err-cpwd');
     const phoneInput = document.getElementById('phone');
+    const emailInput = document.getElementById('email');
     const btnCancelReg = document.getElementById('btn-cancel-reg');
 
     if (regForm) {
@@ -923,7 +946,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
-        // Blur event for validation
+        // Blur event for validation (Phone)
         phoneInput.addEventListener('blur', () => {
             if (phoneInput.value.length > 0 && phoneInput.value.length < 10) {
                 phoneInput.style.borderColor = 'var(--danger)';
@@ -931,6 +954,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 phoneInput.style.borderColor = 'var(--border-color)';
             }
         });
+
+        // Blur event for validation (Email)
+        if (emailInput) {
+            emailInput.addEventListener('blur', () => {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (emailInput.value.length > 0 && !emailRegex.test(emailInput.value)) {
+                    emailInput.style.borderColor = 'var(--danger)';
+                } else {
+                    emailInput.style.borderColor = 'var(--border-color)';
+                }
+            });
+        }
 
         // Input event for live password matching
         confirmPassword.addEventListener('input', () => {

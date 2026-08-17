@@ -278,8 +278,8 @@
                 <h2 id="sess-duration" style="font-size: 2.5rem; margin-bottom: 1rem; color: var(--text-primary);">00:00:00</h2>
                 
                 <div style="margin-bottom: 1.5rem; text-align: left;">
-                    <label for="reminder-slider" style="display:block; margin-bottom:0.5rem; font-weight: bold;">Duration Reminder (<span id="reminder-val">1</span> Hours)</label>
-                    <input type="range" id="reminder-slider" min="1" max="12" value="1" style="width: 100%;">
+                    <label for="reminder-slider" style="display:block; margin-bottom:0.5rem; font-weight: bold;">Duration Reminder (<span id="reminder-val">10</span> Seconds)</label>
+                    <input type="range" id="reminder-slider" min="5" max="60" value="10" step="5" style="width: 100%;">
                 </div>
                 
                 <div class="progress-container" style="height: 10px; margin-bottom: 1.5rem; cursor: pointer;" id="sess-progress-bg">
@@ -959,6 +959,9 @@
             </div>
         </div>
     </div>
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container" style="position: fixed; bottom: 20px; right: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 10px;"></div>
 
     <!-- External Library for QR Code Generation -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
