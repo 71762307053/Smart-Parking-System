@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traffic Rules Masterclass</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Traffic Rules E-Course</h1>
+        <div id="cart-badge">Enrolled: <span id="enroll-count">0</span></div>
+    </header>
+
+    <main>
+        <!-- 5. Course Search & Filter Bar -->
+        <section id="search-section">
+            <input type="text" id="search-box" placeholder="Search courses...">
+            <select id="category-filter">
+                <option value="all">All Categories</option>
+                <option value="basics">Basics</option>
+                <option value="advanced">Advanced</option>
+            </select>
+            <select id="difficulty-filter">
+                <option value="all">All Difficulties</option>
+                <option value="beginner">Beginner</option>
+                <option value="expert">Expert</option>
+            </select>
+        </section>
+
+        <!-- 1. Course Catalog Page -->
+        <section id="catalog">
+            <h2>Course Catalog</h2>
+            <div class="course-grid">
+                <div class="course-card" data-category="basics" data-difficulty="beginner">
+                    <img src="https://via.placeholder.com/300x150" alt="Traffic Signs">
+                    <div class="course-info">
+                        <h3>Understanding Traffic Signs</h3>
+                        <p class="instructor">By John Doe</p>
+                        <p class="price">$19.99</p>
+                        <button class="enroll-btn">Enroll Now</button>
+                        <span class="wishlist-icon">☆</span>
+                    </div>
+                    <div class="preview-overlay">Learn the basics of traffic signs.</div>
+                </div>
+                <div class="course-card" data-category="advanced" data-difficulty="expert">
+                    <img src="https://via.placeholder.com/300x150" alt="Highway Driving">
+                    <div class="course-info">
+                        <h3>Highway Driving Rules</h3>
+                        <p class="instructor">By Jane Smith</p>
+                        <p class="price">$29.99</p>
+                        <button class="enroll-btn">Enroll Now</button>
+                        <span class="wishlist-icon">☆</span>
+                    </div>
+                    <div class="preview-overlay">Master high-speed maneuvering.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. Video Lecture Player -->
+        <section id="video-player">
+            <h2>Lecture: Safe Distance</h2>
+            <div class="player-container">
+                <video id="lecture-video" src="https://www.w3schools.com/html/mov_bbb.mp4"></video>
+                <div class="controls">
+                    <button id="play-pause-btn">Play</button>
+                    <input type="range" id="volume-slider" min="0" max="1" step="0.1" value="1">
+                    <div id="progress-container">
+                        <div id="progress-bar"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. Discussion / Comment Section -->
+        <section id="discussion">
+            <h2>Discussion</h2>
+            <div id="comments-container">
+                <div class="comment">
+                    <p>Great lecture!</p>
+                    <button class="reply-link">Reply</button>
+                    <div class="replies"></div>
+                </div>
+            </div>
+            <form id="comment-form">
+                <input type="text" id="new-comment" placeholder="Add a comment..." required>
+                <button type="submit">Post</button>
+            </form>
+        </section>
+
+        <!-- 4. Quiz / Assessment Module -->
+        <section id="quiz-module">
+            <h2>Quiz: Traffic Basics</h2>
+            <button id="start-quiz-btn">Start Quiz</button>
+            <div id="timer-display">Time: 30s</div>
+            <form id="quiz-form">
+                <div class="question">
+                    <p>What does a red light mean?</p>
+                    <label><input type="radio" name="q1" value="go"> Go</label>
+                    <label><input type="radio" name="q1" value="stop"> Stop</label>
+                </div>
+                <div class="question">
+                    <p>Who has the right of way at a crosswalk?</p>
+                    <label><input type="radio" name="q2" value="car"> Car</label>
+                    <label><input type="radio" name="q2" value="pedestrian"> Pedestrian</label>
+                </div>
+                <button type="submit" id="submit-quiz-btn" disabled>Submit Quiz</button>
+            </form>
+            <div id="quiz-score"></div>
+        </section>
+
+        <!-- 3. Course Enrollment / Registration Form -->
+        <section id="registration">
+            <h2>Register for a Course</h2>
+            <form id="reg-form">
+                <div>
+                    <label>Name:</label>
+                    <input type="text" id="reg-name" required>
+                </div>
+                <div>
+                    <label>Email:</label>
+                    <input type="email" id="reg-email" required>
+                    <span class="error" id="email-error"></span>
+                </div>
+                <div>
+                    <label>Password:</label>
+                    <input type="password" id="reg-password" required>
+                    <span class="error" id="password-error"></span>
+                </div>
+                <div>
+                    <label>Confirm Password:</label>
+                    <input type="password" id="reg-confirm" required>
+                    <span class="error" id="confirm-error"></span>
+                </div>
+                <button type="submit">Register</button>
+            </form>
+            <div id="reg-confirmation"></div>
+        </section>
+
+        <!-- 7. Student Dashboard / Progress Tracker -->
+        <section id="dashboard">
+            <h2>Student Dashboard</h2>
+            <div class="dashboard-course" id="dash-course-1">
+                <h3>Traffic Signs (Enrolled)</h3>
+                <div class="dash-progress-container" title="50%">
+                    <div class="dash-progress-bar" style="width: 50%;"></div>
+                </div>
+                <div class="lecture-list" style="display: none;">
+                    <label><input type="checkbox" class="lecture-checkbox" checked> Lecture 1</label>
+                    <label><input type="checkbox" class="lecture-checkbox"> Lecture 2</label>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>

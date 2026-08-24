@@ -1243,3 +1243,42 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+
+// Custom Video Player Logic
+document.addEventListener('DOMContentLoaded', () => {
+    const video = document.getElementById('custom-lecture-video');
+    const playPauseBtn = document.getElementById('custom-play-pause-btn');
+    const volumeSlider = document.getElementById('custom-volume-slider');
+    const progressBar = document.getElementById('custom-progress-bar');
+    const progressContainer = document.getElementById('custom-progress-container');
+
+    if(video) {
+        playPauseBtn.addEventListener('click', () => {
+            if (video.paused) {
+                video.play();
+                playPauseBtn.textContent = 'Pause';
+            } else {
+                video.pause();
+                playPauseBtn.textContent = 'Play';
+            }
+        });
+
+        volumeSlider.addEventListener('input', (e) => {
+            video.volume = e.target.value;
+        });
+
+        video.addEventListener('timeupdate', () => {
+            if (video.duration) {
+                const percent = (video.currentTime / video.duration) * 100;
+                progressBar.style.width = percent + '%';
+            }
+        });
+
+        progressContainer.addEventListener('click', (e) => {
+            const rect = progressContainer.getBoundingClientRect();
+            const pos = (e.clientX - rect.left) / progressContainer.offsetWidth;
+            video.currentTime = pos * video.duration;
+        });
+    }
+});
