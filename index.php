@@ -48,12 +48,6 @@
                 <span class="badge" id="cart-badge" style="background: #10b981; display: none;">0</span>
             </button>
 
-            <!-- Favorites Star -->
-            <button id="favorites-btn" class="notification-trigger" aria-label="Favorite Slots">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-                <span class="badge" id="fav-badge" style="background: #f59e0b; display: none;">0</span>
-            </button>
-
             <!-- Student Info Metadata -->
             <div class="student-meta">
                 <strong>SUMMERJEET SINGH</strong>
@@ -65,15 +59,15 @@
     <!-- Navigation Bar -->
     <nav>
         <ul class="nav-links">
-            <li><a href="#home" class="active">Home</a></li>
+            <li><a href="index.php" class="active">Home</a></li>
+            <li><a href="registration.php">Register Vehicle</a></li>
+            <li><a href="feedback.php">Feedback</a></li>
+            <li><a href="view_users.php">Admin Users</a></li>
+            <li><a href="view_feedback.php">Admin Feedback</a></li>
             <li><a href="#dashboard">Dashboard</a></li>
             <li><a href="#storage">Parking Slots</a></li>
-            <li><a href="#registration">Reservations</a></li>
-            <li><a href="#features">Vehicles</a></li>
-            <li><a href="#advanced-features">Pricing</a></li>
             <li><a href="#gallery">Gallery</a></li>
             <li><a href="#contact">Contact</a></li>
-            <li><a href="#" id="logout-btn">Logout</a></li>
         </ul>
     </nav>
 
@@ -869,38 +863,6 @@
             </div>
         </section>
 
-        <!-- Module 7: Driver Dashboard Tracker -->
-        <section class="driver-dashboard" style="padding: 2rem 6%; border-top: 1px solid var(--border-color); background: rgba(16,185,129,0.05);">
-            <h2 class="section-title">Driver Dashboard (Module 7)</h2>
-            <div class="glass-card" style="max-width: 800px; margin: 0 auto; overflow: hidden; transition: all 0.3s ease;" id="tracker-card">
-                <div style="display: flex; justify-content: space-between; align-items: center; cursor: pointer;" id="tracker-header">
-                    <div>
-                        <h3 style="color: var(--primary);">Current Session: <span id="tracker-slot">A-1</span></h3>
-                        <p style="font-size: 0.85rem; color: var(--text-secondary);">Vehicle: <span id="tracker-vehicle">Car</span> | Zone: <span id="tracker-zone">Zone A</span></p>
-                    </div>
-                    <i class="fa-solid fa-chevron-down" id="tracker-chevron" style="transition: transform 0.3s;"></i>
-                </div>
-                
-                <div id="tracker-details" style="display: none; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border-color);">
-                    <div style="margin-bottom: 1rem;">
-                        <strong>Entry Time:</strong> <span id="tracker-entry">--:--:--</span>
-                    </div>
-                    <div style="margin-bottom: 1rem;">
-                        <strong>Progress Tracker:</strong>
-                        <div class="progress-container" style="height: 15px; margin-top: 0.5rem; position: relative;" id="tracker-progress-bg">
-                            <div class="progress-bar" id="tracker-progress-fill" style="width: 45%; background: linear-gradient(90deg, #10b981, #0ea5e9);"></div>
-                            <div id="tracker-tooltip" style="display: none; position: absolute; top: -30px; left: 45%; transform: translateX(-50%); background: #333; color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; white-space: nowrap;">45% Complete</div>
-                        </div>
-                    </div>
-                    <div style="margin-top: 1.5rem;">
-                        <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
-                            <input type="checkbox" id="tracker-complete-check" style="width: 1.2rem; height: 1.2rem; accent-color: var(--primary);">
-                            <strong>Mark Parking Complete</strong>
-                        </label>
-                    </div>
-                </div>
-            </div>
-        </section>
 
     <!-- Traffic Awareness & Rules Section -->
     <section id="awareness" style="padding: 4rem 6%; background: var(--bg-card); border-top: 1px solid var(--border-color);">

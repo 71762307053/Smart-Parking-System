@@ -860,14 +860,28 @@ document.addEventListener('DOMContentLoaded', () => {
         if (favIcon) {
             favIcon.addEventListener('click', (e) => {
                 e.stopPropagation(); // prevent triggering park
+                const favBadge = document.getElementById('fav-badge');
+                
                 if (favIcon.classList.contains('fa-regular')) {
                     favIcon.classList.remove('fa-regular');
                     favIcon.classList.add('fa-solid', 'filled');
                     if (typeof addNotification === 'function') addNotification(`Slot added to your favorites!`, 'success');
+                    
+                    if (favBadge) {
+                        let count = parseInt(favBadge.textContent) || 0;
+                        favBadge.textContent = count + 1;
+                        favBadge.style.display = 'inline-block';
+                    }
                 } else {
                     favIcon.classList.add('fa-regular');
                     favIcon.classList.remove('fa-solid', 'filled');
                     if (typeof addNotification === 'function') addNotification(`Slot removed from favorites.`, 'warning');
+                    
+                    if (favBadge) {
+                        let count = parseInt(favBadge.textContent) || 0;
+                        if (count > 0) favBadge.textContent = count - 1;
+                        if (parseInt(favBadge.textContent) === 0) favBadge.style.display = 'none';
+                    }
                 }
             });
         }
