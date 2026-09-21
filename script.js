@@ -120,6 +120,21 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // --- Favorites Panel Toggle ---
+    const favBtn = document.getElementById('favorites-btn');
+    const favPanel = document.getElementById('fav-panel');
+    const closeFav = document.getElementById('close-fav');
+    const favList = document.getElementById('fav-list');
+
+    if (favBtn && favPanel) {
+        favBtn.addEventListener('click', () => {
+            favPanel.classList.toggle('active');
+        });
+        closeFav.addEventListener('click', () => {
+            favPanel.classList.remove('active');
+        });
+    }
+
     const addReservedSlotToCart = (slotId, zone, price) => {
         const emptyMsg = document.getElementById('empty-cart-msg');
         if (emptyMsg) emptyMsg.style.display = 'none';
@@ -861,6 +876,9 @@ document.addEventListener('DOMContentLoaded', () => {
             favIcon.addEventListener('click', (e) => {
                 e.stopPropagation(); // prevent triggering park
                 const favBadge = document.getElementById('fav-badge');
+                const favList = document.getElementById('fav-list');
+                const slotId = slot.getAttribute('data-id');
+                const emptyFavMsg = document.getElementById('empty-fav-msg');
                 
                 if (favIcon.classList.contains('fa-regular')) {
                     favIcon.classList.remove('fa-regular');
@@ -872,6 +890,23 @@ document.addEventListener('DOMContentLoaded', () => {
                         favBadge.textContent = count + 1;
                         favBadge.style.display = 'inline-block';
                     }
+                    if (emptyFavMsg) emptyFavMsg.style.display = 'none';
+                    if (favList) {
+                        const item = document.createElement('div');
+                        item.className = 'notification-item success';
+                        item.id = `fav-item-${slotId}`;
+                        item.style.borderLeftColor = '#f59e0b';
+                        item.innerHTML = `
+                            <div class="notify-icon-badge" style="color: #f59e0b;">
+                                <i class="fa-solid fa-star"></i>
+                            </div>
+                            <div class="notify-details">
+                                <span class="notify-time">$${slot.getAttribute('data-price')}/hr</span>
+                                <p><strong>Slot ${slotId}</strong> - ${slot.getAttribute('data-zone')}</p>
+                            </div>
+                        `;
+                        favList.appendChild(item);
+                    }
                 } else {
                     favIcon.classList.add('fa-regular');
                     favIcon.classList.remove('fa-solid', 'filled');
@@ -881,6 +916,13 @@ document.addEventListener('DOMContentLoaded', () => {
                         let count = parseInt(favBadge.textContent) || 0;
                         if (count > 0) favBadge.textContent = count - 1;
                         if (parseInt(favBadge.textContent) === 0) favBadge.style.display = 'none';
+                    }
+                    if (favList) {
+                        const itemToRemove = document.getElementById(`fav-item-${slotId}`);
+                        if (itemToRemove) favList.removeChild(itemToRemove);
+                        if (favList.children.length === 1 && emptyFavMsg) { // only empty msg left
+                            emptyFavMsg.style.display = 'block';
+                        }
                     }
                 }
             });
